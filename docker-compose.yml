@@ -1,0 +1,26 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: blazor-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  blazorapp:
+    build: .
+    ports:
+      - "5000:8080"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017
+      - MONGO_DB_NAME=BlazorTutorial
+      - DOTNET_Logging__LogLevel__Default=Information
+      - DOTNET_Logging__LogLevel__Microsoft_AspNetCore=Warning
+      - DOTNET_AllowedHosts=*
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

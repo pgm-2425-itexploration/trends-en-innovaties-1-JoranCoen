@@ -1,0 +1,51 @@
+# === .NET / Blazor ===
+bin/
+obj/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+
+# Rider / JetBrains
+.idea/
+*.iml
+*.iws
+out/
+
+# Visual Studio Code
+.vscode/
+
+# === Docker ===
+**/Dockerfile*
+docker-compose.override.yml
+docker-compose.override.*.yml
+*.env
+**/docker-compose.override.env
+**/docker-compose.override.*.env
+**/docker-compose.override.override.yml
+
+# Docker volumes (local data)
+volumes/
+*.log
+
+# === MongoDB ===
+# Ignore database files if using a local mounted volume
+mongo_data/
+
+# Backup files
+*.bak
+*.backup
+
+# Node / npm (if using Blazor WASM + npm packages)
+node_modules/
+wwwroot/lib/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

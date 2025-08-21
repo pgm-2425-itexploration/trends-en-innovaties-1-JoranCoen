@@ -1,0 +1,16 @@
+{
+  "name": "blazor-tutorial",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:pgm-2425-itexploration/trends-en-innovaties-1-JoranCoen.git",
+  "author": "jorancoen <jorancoen886@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "watch": "npx @tailwindcss/cli -i ./wwwroot/input.css -o ./wwwroot/app.css --watch",
+    "build": "npx @tailwindcss/cli -i ./wwwroot/input.css -o ./wwwroot/app.css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.12",
+    "@tailwindcss/cli": "^4.1.12"
+  }
+}

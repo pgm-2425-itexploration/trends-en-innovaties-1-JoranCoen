@@ -20,6 +20,7 @@ services:
       - DOTNET_Logging__LogLevel__Default=Information
       - DOTNET_Logging__LogLevel__Microsoft_AspNetCore=Warning
       - DOTNET_AllowedHosts=*
+      - ASPNETCORE_ENVIRONMENT=Development
     restart: unless-stopped
 
 volumes:

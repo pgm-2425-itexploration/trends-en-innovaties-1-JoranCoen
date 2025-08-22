@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -7,9 +6,7 @@
     <RootNamespace>blazor-tutorial</RootNamespace>
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
   </PropertyGroup>
-  
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="yarn build" />
-  </Target>
-
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="3.4.3" />
+  </ItemGroup>
 </Project>

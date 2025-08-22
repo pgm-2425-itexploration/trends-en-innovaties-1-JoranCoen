@@ -5,19 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
-    <link rel="stylesheet" href="@Assets["app.css"]" />
-    <link rel="stylesheet" href="@Assets["blazor-tutorial.styles.css"]" />
+    <link rel="stylesheet" href="@Assets["dist.css"]" />
     <ImportMap />
-    <link rel="icon" type="image/png" href="" />
+    <link rel="icon" type="image/png" href="@Assets["favicon.ico"]" />
     <HeadOutlet />
-    <RadzenTheme Theme="material" @rendermode="RenderMode.InteractiveServer" />
 </head>
 
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 </body>
 
 </html>

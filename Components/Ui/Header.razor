@@ -1,0 +1,11 @@
+@namespace blazor_tutorial.Components.Ui
+
+<div class="mb-6 sm:mb-10 max-w-2xl text-center mx-auto">
+    <h1 class="font-medium text-black text-3xl sm:text-4xl">
+        @Title
+    </h1>
+</div>
+
+@code {
+    [Parameter] public required string Title { get; set; }
+}

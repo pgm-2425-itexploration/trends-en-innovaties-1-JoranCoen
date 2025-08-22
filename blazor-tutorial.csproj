@@ -7,9 +7,9 @@
     <RootNamespace>blazor-tutorial</RootNamespace>
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Radzen.Blazor" Version="7.2.3" />
-  </ItemGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="yarn build" />
+  </Target>
 
 </Project>

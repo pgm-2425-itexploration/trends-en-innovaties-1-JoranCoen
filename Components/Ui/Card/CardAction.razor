@@ -1,0 +1,9 @@
+@namespace blazor_tutorial.Components.Ui.Card
+
+<div class="mt-auto px-4 pb-4">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

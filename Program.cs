@@ -1,14 +1,9 @@
 using blazor_tutorial.Components;
-using Radzen;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-// Add Radzen services
-builder.Services.AddScoped<ThemeService>();
 
 var app = builder.Build();
 

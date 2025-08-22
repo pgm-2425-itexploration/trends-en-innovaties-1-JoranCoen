@@ -6,11 +6,11 @@
   "author": "jorancoen <jorancoen886@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "watch": "npx @tailwindcss/cli -i ./wwwroot/input.css -o ./wwwroot/app.css --watch",
-    "build": "npx @tailwindcss/cli -i ./wwwroot/input.css -o ./wwwroot/app.css"
+    "watch": "npx @tailwindcss/cli -i ./wwwroot/app.css -o ./wwwroot/dist.css --watch",
+    "build": "npx @tailwindcss/cli -i ./wwwroot/app.css -o ./wwwroot/dist.css"
   },
-  "devDependencies": {
-    "tailwindcss": "^4.1.12",
-    "@tailwindcss/cli": "^4.1.12"
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.12",
+    "tailwindcss": "^4.1.12"
   }
 }

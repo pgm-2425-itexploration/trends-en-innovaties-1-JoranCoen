@@ -2,8 +2,6 @@
 module.exports = {
   content: [
     "./**/*.razor",
-    "./**/*.html",
-    "./wwwroot/**/*.js"
   ],
   theme: {
     extend: {},

@@ -1,0 +1,44 @@
+@page "/products"
+
+<PageTitle>Products</PageTitle>
+
+<div class="max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-24 mx-auto">
+    <Header Title="Explore All the products" />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        <Card>
+            <CardImage Src="images/blazor-card.jpg" Alt="blazor" />
+            <CardTitle>
+                <h3 class="font-medium md:text-lg text-black">Blazor</h3>
+                <p class="mt-2 font-semibold text-black">$5.50</p>
+            </CardTitle>
+            <CardContent>
+                <div class="flex flex-col">
+                    <div class="py-3 border-t border-gray-200">
+                        <div class="grid grid-cols-2 gap-2">
+                            <span class="font-medium text-black">Blazor pros:</span>
+                            <span class="text-end text-black">Reusable Components, Fast Rendering, .NET Integration</span>
+                        </div>
+                    </div>
+                    <div class="py-3 border-t border-gray-200">
+                        <div class="grid grid-cols-2 gap-2">
+                            <span class="font-medium text-black">Platform:</span>
+                            <span class="text-end text-black">WebAssembly, Server</span>
+                        </div>
+                    </div>
+                    <div class="py-3 border-t border-gray-200">
+                        <div class="grid grid-cols-2 gap-2">
+                            <span class="font-medium text-black">Language:</span>
+                            <span class="text-end text-black">C#</span>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+            <CardAction>
+                <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-blue-400 text-black hover:bg-blue-500 focus:outline-hidden focus:bg-blue-500 transition disabled:opacity-50 disabled:pointer-events-none"
+                    href="#">
+                    Buy now
+                </a>
+            </CardAction>
+        </Card>
+    </div>
+</div>

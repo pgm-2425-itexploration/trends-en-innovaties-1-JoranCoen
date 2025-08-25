@@ -13,7 +13,7 @@
         }
         else
         {
-            @foreach (Product product in productsList.Take(9))
+            @foreach (Product product in productsList)
             {
                 <Card>
                     <CardImage Src="@product.ImageUrl" Alt="@product.Name" />
@@ -34,17 +34,14 @@
                             }
                         </div>
                     </CardContent>
-                    <CardAction>
-                        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-blue-400 text-black hover:bg-blue-500 focus:outline-hidden focus:bg-blue-500 transition disabled:opacity-50 disabled:pointer-events-none"
-                           href="#">
-                            Buy now
-                        </a>
-                    </CardAction>
+                    <CardAction ProductId="@product.Id" />
                 </Card>
             }
         }
     </div>
 </div>
+
+<FooterMenu />
 
 @code {
     private IEnumerable<Product> productsList = new List<Product>();

@@ -1,0 +1,42 @@
+@if (IsVisible)
+{
+    <div class="fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-gray-900 opacity-30"></div>
+        <div class="relative rounded-lg shadow-lg p-8 max-w-md w-full border border-blue-300 bg-white">
+            <div class="flex items-center mb-4">
+                @if (Type == PopupType.Success)
+                {
+                    <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                }
+                else if (Type == PopupType.Danger)
+                {
+                    <svg class="h-6 w-6 text-red-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                }
+
+                <h2 class="text-xl font-semibold text-gray-800">@Title</h2>
+            </div>
+            <p class="text-gray-700 mb-4">
+                @Message
+            </p>
+            <button class="mt-2 px-4 py-2 rounded text-white 
+                          @(Type == PopupType.Success ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600")"
+                    @onclick="() => OnClose.InvokeAsync(null)">
+                Close
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public PopupType Type { get; set; } = PopupType.Success;
+    [Parameter] public RenderFragment? Message { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+}

@@ -1,15 +1,16 @@
 ﻿@namespace BlazorTutorial.Components.Pages
-@inject ProductService ProductService
 @page "/"
+@inject ProductService ProductService
+@inject BasketService BasketService
 
 <PageTitle>Home</PageTitle>
 
-<Hero Title="Welcome to Blazor!" ImageUrl="images/blazor.png" />
+<Hero Title="Welcome to Blazor!" ImageUrl="images/blazor.jpg" />
 
 <div class="max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-24 mx-auto">
     <Header Title="Explore the Features of Blazor" />
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-      @if (productsList == null)
+        @if (productsList == null)
         {
             <p>Loading products...</p>
         }
@@ -36,12 +37,7 @@
                             }
                         </div>
                     </CardContent>
-                    <CardAction>
-                        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-blue-400 text-black hover:bg-blue-500 focus:outline-hidden focus:bg-blue-500 transition disabled:opacity-50 disabled:pointer-events-none"
-                           href="#">
-                            Buy now
-                        </a>
-                    </CardAction>
+                    <CardAction ProductId="@product.Id" />
                 </Card>
             }
         }
@@ -165,6 +161,8 @@
         </div>
     </div>
 </div>
+
+<FooterMenu />
 
 @code {
     private IEnumerable<Product> productsList = new List<Product>();

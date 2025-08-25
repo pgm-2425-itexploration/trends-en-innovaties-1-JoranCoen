@@ -7,15 +7,11 @@ namespace Data
     {
         public IMongoDatabase Database { get; }
         public IMongoCollection<Product> Products => Database.GetCollection<Product>("Products");
+        public IMongoCollection<Order> Orders => Database.GetCollection<Order>("Orders");
 
         public MongoDbContext(IConfiguration config, IMongoClient client)
         {
-            string databaseName =
-                config.GetValue<string>("MongoDbSettings:DatabaseName")
-                ?? Environment.GetEnvironmentVariable("MONGO_DB_NAME")
-                ?? throw new ArgumentNullException(
-                    "MongoDbSettings:DatabaseName configuration is missing."
-                );
+            var databaseName = Environment.GetEnvironmentVariable("MONGO_DB_NAME") ?? "BlazorTutorial";
 
             Database = client.GetDatabase(databaseName);
         }

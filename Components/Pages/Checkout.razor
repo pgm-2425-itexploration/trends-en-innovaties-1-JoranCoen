@@ -1,0 +1,196 @@
+@namespace BlazorTutorial.Components.Pages
+@rendermode InteractiveServer
+@page "/checkout"
+@inject BasketService BasketService
+@inject ProductService ProductService
+@inject OrderService OrderService
+
+<PageTitle>Checkout</PageTitle>
+
+<div class="max-w-7xl px-4 sm:px-4 mx-auto">
+    <Popup IsVisible="@isSubmitted" Title="Order Placed!" Type="PopupType.Success" OnClose="() => isSubmitted = false">
+        <Message>
+            Thank you, <span class="font-bold">@checkoutModel.FullName</span>!
+            Your order has been placed successfully.
+        </Message>
+    </Popup>
+    <Popup IsVisible="!string.IsNullOrEmpty(errorMessage)" Title="Error" Type="PopupType.Danger" OnClose="() => errorMessage = null">
+        <Message>
+            <span class="text-red-600">@errorMessage</span>
+        </Message>
+    </Popup>
+    <div class="flex w-full gap-4">
+        <div class="w-2/3 ">
+            <h3 class="text-xl font-semibold mb-4">Shipping Details</h3>
+            <EditForm Model="@checkoutModel" OnValidSubmit="HandleSubmitAsync" class="space-y-8">
+                <div class="space-y-1">
+                    <label>Full Name</label>
+                    <InputText class="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                        @bind-Value="checkoutModel.FullName" />
+                    <ValidationMessage For="@(() => checkoutModel.FullName)" class="text-red-500 text-xs" />
+                </div>
+                <div class="space-y-1">
+                    <label>Address</label>
+                    <InputText class="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                        @bind-Value="checkoutModel.Address" />
+                    <ValidationMessage For="@(() => checkoutModel.Address)" class="text-red-500 text-xs" />
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label>City</label>
+                        <InputText class="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                            @bind-Value="checkoutModel.City" />
+                        <ValidationMessage For="@(() => checkoutModel.City)" class="text-red-500 text-xs" />
+                    </div>
+                    <div class="space-y-1">
+                        <label>Postal Code</label>
+                        <InputText class="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                            @bind-Value="checkoutModel.PostalCode" />
+                        <ValidationMessage For="@(() => checkoutModel.PostalCode)" class="text-red-500 text-xs" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label>Payment Method</label>
+                    <InputSelect class="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                        @bind-Value="checkoutModel.PaymentMethod">
+                        <option value="@PaymentMethod.CreditCard">Credit Card</option>
+                        <option value="@PaymentMethod.PayPal">PayPal</option>
+                        <option value="@PaymentMethod.BankTransfer">Bank Transfer</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => checkoutModel.PaymentMethod)" class="text-red-500 text-xs" />
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-400 text-white hover:bg-blue-500 font-semibold py-2 rounded-lg">
+                    Place Order
+                </button>
+            </EditForm>
+        </div>
+        <div class="w-1/3">
+            @if (BasketItems.Count == 0)
+            {
+                <p class="text-center text-gray-500">Your basket is empty.</p>
+            }
+            else
+            {
+                <div class="rounded-lg shadow-sm border border-gray-200 overflow-hidden w-full">
+                    <div class="flex flex-col justify-between">
+                        <ul role="list" class="flex flex-col divide-y divide-gray-200">
+                            @foreach (BasketItem item in BasketItems)
+                            {
+                                if (item.Product == null) continue;
+
+                                <li key="@item.ProductId" class="flex py-4 px-4 hover:bg-gray-50 transition-colors">
+                                    <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                        <img src="@item.Product.ImageUrl" alt="@item.Product.Name"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div class="ml-4 flex flex-1 flex-col justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-base font-medium text-gray-900 mb-1">
+                                                @item.Product.Name
+                                            </h3>
+                                            <p class="text-lg font-semibold text-gray-900">
+                                                $@item.Product.Price.ToString("N2")
+                                            </p>
+                                        </div>
+
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm font-medium text-gray-700 min-w-[2rem] text-center">
+                                                @item.Quantity
+                                            </span>
+                                            <p class="text-sm font-medium text-gray-900">
+                                                Subtotal: $@((item.Product.Price * item.Quantity).ToString("N2"))
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        <div class="border-t border-gray-200 bg-gray-50 px-4 py-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-gray-900">Total</span>
+                                <span class="text-xl font-bold text-gray-900">$@Total.ToString("N2")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isSubmitted = false;
+    private string? errorMessage;
+    private CheckoutModel checkoutModel = new CheckoutModel();
+    private ICollection<BasketItem> BasketItems = new List<BasketItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBasketItems();
+    }
+
+    private async Task LoadBasketItems()
+    {
+        BasketItems.Clear();
+        foreach (BasketItem item in BasketService.GetBasket().Items)
+        {
+            Product? product = await ProductService.GetProductAsync(item.ProductId);
+            BasketItems.Add(new BasketItem
+            {
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                Product = product
+            });
+        }
+    }
+
+    private decimal Subtotal => BasketItems.Sum(i => (i.Product?.Price ?? 0) * i.Quantity);
+
+    private decimal TaxRate => 0.10m;
+
+    private decimal Taxes => Subtotal * TaxRate;
+
+    private decimal Total => Subtotal + Taxes;
+
+    private async Task HandleSubmitAsync()
+    {
+        if (!BasketItems.Any())
+        {
+            errorMessage = "Your basket is empty. Please add items before checking out.";
+            return;
+        }
+
+        Order order = new Order
+        {
+            FullName = checkoutModel.FullName,
+            Address = checkoutModel.Address,
+            City = checkoutModel.City,
+            PostalCode = checkoutModel.PostalCode,
+            PaymentMethod = checkoutModel.PaymentMethod,
+            Items = BasketItems
+        .Select(i => new Models.OrderItem
+        {
+            ProductId = i.ProductId,
+            Quantity = i.Quantity
+        })
+        .ToList()
+        };
+
+        await OrderService.CreateOrderAsync(order);
+
+        BasketService.Clear();
+        BasketItems.Clear();
+
+        isSubmitted = true;
+    }
+
+    public class CheckoutModel
+    {
+        [Required] public string FullName { get; set; } = string.Empty;
+        [Required] public string Address { get; set; } = string.Empty;
+        [Required] public string City { get; set; } = string.Empty;
+        [Required] public string PostalCode { get; set; } = string.Empty;
+        [Required] public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.CreditCard;
+    }
+}

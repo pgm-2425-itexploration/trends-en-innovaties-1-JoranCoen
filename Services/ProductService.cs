@@ -19,7 +19,6 @@ namespace Services
 
         public async Task<Product?> GetProductAsync(string id)
         {
-            // Return a single product by Id
             return await _productRepository.GetByIdAsync(id);
         }
 

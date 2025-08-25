@@ -1,4 +1,5 @@
 using blazor_tutorial.Components;
+using Blazored.LocalStorage;
 using Data;
 using MongoDB.Driver;
 using Repositories;
@@ -8,19 +9,22 @@ using Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
     var connectionString =
-        config.GetValue<string>("MONGO_CONNECTION_STRING")
-        ?? Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING")
-        ?? throw new InvalidOperationException("Mongo connection string is missing.");
+        Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING")
+        ?? "mongodb://localhost:27017";
     return new MongoClient(connectionString);
 });
-builder.Services.AddSingleton<MongoDbContext>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<BasketService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 
